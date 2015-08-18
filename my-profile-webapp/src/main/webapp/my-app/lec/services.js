@@ -41,6 +41,24 @@ define(['angular'], function(angular) {
              });
         };
         
+        var getEmergencyPhoneNumber = function(){
+            return $http.get('/profile/api/phoneNumber/get.json').success(
+                function(data, status){
+                    return data;
+                }).error(function(data, status){
+                    miscService.redirectUser(status, "Get emergency contact info");
+                });
+        };
+        
+        var saveEmergencyPhoneNumber = function(emergencyPhoneNumber){
+            return $http.post('/profile/api/phoneNumber/set',emergencyPhoneNumber).success(
+                function(data, status) { //success function
+                    return data;
+                }).error(function(data, status) { // failure function
+                    miscService.redirectUser(status, "Get emergency contact info");
+             });
+        };
+        
         //emergency
         var getEmergencyContactInfo = function() {
             return $http.get('/profile/api/emergencyContactInfo/get.json').success(
@@ -49,7 +67,7 @@ define(['angular'], function(angular) {
                }).error(function(data, status) { // failure function
                miscService.redirectUser(status, "Get emergency contact info");
             });
-        }
+        };
 
         var saveEmergencyContactInfo = function (emergencyInfo) {
             angular.forEach(emergencyInfo, function(value, key, obj){
@@ -88,7 +106,9 @@ define(['angular'], function(angular) {
           getLocalContactInfo : getLocalContactInfo,
           saveLocalContactInfo : saveLocalContactInfo,
           getEmergencyContactInfo : getEmergencyContactInfo,
+          getEmergencyPhoneNumber : getEmergencyPhoneNumber,
           saveEmergencyContactInfo : saveEmergencyContactInfo,
+          saveEmergencyPhoneNumber : saveEmergencyPhoneNumber,
           searchUsers : searchUsers,
           searchLocalContactInfo : searchLocalContactInfo
         }

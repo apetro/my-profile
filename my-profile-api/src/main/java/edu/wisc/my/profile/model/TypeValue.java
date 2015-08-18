@@ -1,6 +1,7 @@
 package edu.wisc.my.profile.model;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -8,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class TypeValue {
   
   public TypeValue() {
-    
   }
   
   public TypeValue(String type, String value) {
@@ -18,10 +18,20 @@ public class TypeValue {
   
   private String type;
   private String value;
+  private DateTime lastModified;
   
   public String getType() {
     return type;
   }
+
+  public DateTime getLastModified() {
+    return lastModified;
+  }
+
+  public void setLastModified(DateTime lastModified) {
+    this.lastModified = lastModified;
+  }
+
   public void setType(String type) {
     this.type = type;
   }

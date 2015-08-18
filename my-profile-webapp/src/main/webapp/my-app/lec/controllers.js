@@ -85,6 +85,59 @@ define(['angular'], function(angular) {
       init();
 
   }]);
+  
+  
+  app.controller('EmergencyPhoneController', ['$localStorage','$scope', 'lecService', function($localStorage, $scope, lecService) {
+      //scope functions
+
+      $scope.save = function() {
+          $scope.notSaving = false;
+          $scope.error = "";
+          lecService.saveEmergencyPhoneNumber($scope.emergencyPhoneNumbers.emergencyPhoneNumbers)
+              .then(function(result){//success
+                  $scope.phoneNumber = result.data;
+                  $scope.notSaving = true;
+                  $scope.phone.edit = false;
+              },function(data, status){//error
+                  $scope.notSaving = true;
+                  $scope.error = "There was an issue saving your address, please try again later.";
+                  $scope.phone.edit = false;
+              });
+      };
+      
+      $scope.remove = function(){
+          
+      }
+
+      $scope.cancel = function() {
+          init();
+      };
+
+      //local functions
+      var init = function() {
+          $scope.emergencyPhoneNumbers = [];
+          $scope.error = "";
+          $scope.notSaving = true;
+          $scope.noPhoneNumber = true;
+          $scope.phone = {};
+          $scope.phone.edit = false;
+          lecService.getEmergencyPhoneNumber()
+              .then(
+                function(result){//success
+                  $scope.emergencyPhoneNumbers = result.data;
+                  if ( $scope.emergencyPhoneNumbers.length > 0 ) {
+                      $scope.emergencyPhoneNumbers = false;
+                    }
+              }, function(result, status){//error
+                $scope.emergencyPhoneNumbers = {};
+                $scope.error = "There was an issue getting your local address information. Please try again later.";
+            });
+          
+      };
+
+      //run init
+      init();
+    } ]);
 
   app.controller('LocalContactInformationController', ['$localStorage','$scope', 'lecService','COUNTRIES','STATES', function($localStorage, $scope, lecService,COUNTRIES,STATES) {
       //scope functions
